@@ -21,14 +21,22 @@ class FactsListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_facts_list)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_facts_list)
         binding.factsList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         viewModel = ViewModelProviders.of(this).get(FactsListViewModel::class.java)
-        viewModel.errorMessage.observe(this, Observer {
-                errorMessage -> if(errorMessage != null) showError(errorMessage) else hideError()
+        viewModel.errorMessage.observe(this, Observer { errorMessage ->
+            if (errorMessage != null) showError(errorMessage) else hideError()
         })
+        viewModel.actionBarTitle.observe(this, Observer { actiobarTitle ->
+            if (actiobarTitle != null) setToolbarTitle(actiobarTitle)
+        })
+
         binding.viewModel = viewModel
+
+    }
+    private fun setToolbarTitle(title : String) {
+        supportActionBar?.title = title
     }
 
     private fun showError(@StringRes errorMessage:Int){
@@ -40,5 +48,6 @@ class FactsListActivity : AppCompatActivity() {
     private fun hideError(){
         errorSnackbar?.dismiss()
     }
+
 
 }

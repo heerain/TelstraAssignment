@@ -2,9 +2,9 @@ package com.example.telstraassignment.ui.facts
 
 import android.arch.lifecycle.MutableLiveData
 import android.view.View
-import android.widget.Toast
 import com.example.telstraassignment.R
 import com.example.telstraassignment.base.BaseViewModel
+import com.example.telstraassignment.model.FactsResponseMain
 import com.example.telstraassignment.network.FactsApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -17,7 +17,9 @@ class FactsListViewModel: BaseViewModel() {
 
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     val errorMessage:MutableLiveData<Int> = MutableLiveData()
+    val actionBarTitle:MutableLiveData<String> = MutableLiveData()
     val errorClickListener = View.OnClickListener { loadPosts() }
+    val factListAdapter: FactListAdapter = FactListAdapter()
 
     private lateinit var subscription: Disposable
 
@@ -32,7 +34,7 @@ class FactsListViewModel: BaseViewModel() {
             .doOnSubscribe { onRetrieveFactListStart() }
             .doOnTerminate { onRetrieveFactListFinish() }
             .subscribe(
-                { onRetrieveFactListSuccess() },
+                { result -> onRetrieveFactListSuccess(result) },
                 { onRetrieveFactListError() }
             )
     }
@@ -41,7 +43,9 @@ class FactsListViewModel: BaseViewModel() {
         errorMessage.value = R.string.post_error
     }
 
-    private fun onRetrieveFactListSuccess() {
+    private fun onRetrieveFactListSuccess(factList:FactsResponseMain) {
+        actionBarTitle.value = factList.title
+        factListAdapter.updateFactList(factList = factList.rows)
     }
 
     private fun onRetrieveFactListFinish() {

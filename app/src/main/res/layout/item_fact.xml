@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" 
+        xmlns:card_view="http://schemas.android.com/tools">
+    
+    <data>
+        <variable name="viewModel"
+                  type="com.example.telstraassignment.ui.facts.FactViewModel"/>
+    </data>
+    
+<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+            
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="8dp">
+
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+            <TextView
+                    android:id="@+id/tv_title"
+                    android:hint="Title"
+                    app:mutableText="@{viewModel.getFactTitle()}"
+                    android:paddingLeft="10dp"
+                    style="@style/TitleTextViewTheme"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginBottom="2dp"/>
+
+            <TextView
+                    android:id="@+id/tv_desc"
+                    android:paddingLeft="10dp"
+                    android:hint="desc"
+                    app:mutableText="@{viewModel.getFactDescription()}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/tv_title"
+                    android:layout_toLeftOf="@+id/img_photo"/>
+
+            <ImageView
+                    android:padding="5dp"
+                    android:id="@+id/img_photo"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/telstra_logo"
+                    android:layout_below="@+id/tv_title"
+                    android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>
+</layout>
