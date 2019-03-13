@@ -51,7 +51,7 @@
                     android:id="@+id/img_photo"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/telstra_logo"
+                    app:imageUrl="@{viewModel.getImageUrl()}"
                     android:layout_below="@+id/tv_title"
                     android:layout_alignParentRight="true"/>
         </RelativeLayout>

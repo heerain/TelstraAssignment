@@ -1,10 +1,7 @@
 package com.example.telstraassignment.model
 
-import android.arch.persistence.room.Entity
-
-
-@Entity
 data class FactsResponse(
+    val id :Int,
     var title : String,
     var description : String,
     var imageHref : String)

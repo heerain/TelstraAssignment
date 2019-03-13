@@ -23,7 +23,7 @@ class FactListAdapter : RecyclerView.Adapter<FactListAdapter.ViewHolder>() {
     override fun getItemCount(): Int {
         return if(::factList.isInitialized) factList.size else 0    }
 
-    override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
+    override fun onBindViewHolder(p0: FactListAdapter.ViewHolder, p1: Int) {
         p0.bind(factList[p1])
     }
 

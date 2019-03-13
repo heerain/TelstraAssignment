@@ -4,7 +4,6 @@ import android.arch.lifecycle.MutableLiveData
 import android.view.View
 import com.example.telstraassignment.R
 import com.example.telstraassignment.base.BaseViewModel
-import com.example.telstraassignment.model.FactsDao
 import com.example.telstraassignment.model.FactsResponseMain
 import com.example.telstraassignment.network.FactsApi
 import io.reactivex.Observable
@@ -13,7 +12,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class FactsListViewModel(private val factsDao: FactsDao): BaseViewModel() {
+class FactsListViewModel: BaseViewModel() {
     @Inject
     lateinit var factsApi: FactsApi
 
@@ -29,24 +28,14 @@ class FactsListViewModel(private val factsDao: FactsDao): BaseViewModel() {
         loadPosts()
     }
 
-     fun loadPosts(){
-        subscription = Observable.fromCallable { factsDao.all }
-            .concatMap {
-                    dbPostList ->
-                if(dbPostList.isEmpty())
-                    factsApi.getFacts().concatMap {
-                            apiFactsList -> factsDao.insertAll(*apiFactsList.rows.toTypedArray())
-                        Observable.just(apiFactsList)
-                    }
-                else
-                    Observable.just(dbPostList)
-            }
+    fun loadPosts(){
+         subscription = factsApi.getFacts()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { onRetrieveFactListStart() }
             .doOnTerminate { onRetrieveFactListFinish() }
             .subscribe(
-                { result -> onRetrieveFactListSuccess(result as FactsResponseMain) },
+                { result -> onRetrieveFactListSuccess(result) },
                 { onRetrieveFactListError() }
             )
     }

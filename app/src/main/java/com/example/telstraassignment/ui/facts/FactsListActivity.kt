@@ -11,7 +11,6 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import com.example.telstraassignment.R
 import com.example.telstraassignment.databinding.ActivityFactsListBinding
-import com.example.telstraassignment.injection.ViewModelFactory
 
 class FactsListActivity : AppCompatActivity() {
 
@@ -27,7 +26,7 @@ class FactsListActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_facts_list)
         binding.factsList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        viewModel = ViewModelProviders.of(this, ViewModelFactory(this)).get(FactsListViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(FactsListViewModel::class.java)
         viewModel.errorMessage.observe(this, Observer { errorMessage ->
             if (errorMessage != null) showError(errorMessage) else hideError()
         })
@@ -37,10 +36,11 @@ class FactsListActivity : AppCompatActivity() {
 
         binding.viewModel = viewModel
 
-        configViews()
+       configViews()
     }
 
     private fun configViews() {
+        mSwipeRefreshLayout = findViewById(R.id.swipe_refresh)
         mSwipeRefreshLayout.setOnRefreshListener {
             viewModel.loadPosts()
         }

@@ -1,6 +1,7 @@
 package com.example.telstraassignment.injection.component
 
 import com.example.telstraassignment.injection.module.NetworkModule
+import com.example.telstraassignment.ui.facts.FactViewModel
 import com.example.telstraassignment.ui.facts.FactsListViewModel
 import dagger.Component
 import javax.inject.Singleton
@@ -12,7 +13,9 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [(NetworkModule::class)])
 interface ViewModelInjector {
-    fun injet(factsListViewModel: FactsListViewModel)
+    fun inject(factsListViewModel: FactsListViewModel)
+    fun inject(factsViewModel: FactViewModel)
+
 
     @Component.Builder
     interface Builder {

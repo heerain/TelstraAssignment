@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModel
 import com.example.telstraassignment.injection.component.DaggerViewModelInjector
 import com.example.telstraassignment.injection.component.ViewModelInjector
 import com.example.telstraassignment.injection.module.NetworkModule
+import com.example.telstraassignment.ui.facts.FactViewModel
 import com.example.telstraassignment.ui.facts.FactsListViewModel
 
 
@@ -24,7 +25,8 @@ abstract class BaseViewModel : ViewModel(){
      */
     private fun inject() {
         when (this) {
-            is FactsListViewModel -> injector.injet(this)
+            is FactsListViewModel -> injector.inject(this)
+            is FactViewModel -> injector.inject(this)
         }
     }
 

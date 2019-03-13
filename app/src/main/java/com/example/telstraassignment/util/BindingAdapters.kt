@@ -35,10 +35,13 @@ fun setAdapter(view: RecyclerView, adapter: RecyclerView.Adapter<*>) {
 }
 
 @BindingAdapter("bind:imageUrl")
-fun loadImage(view: ImageView, imageUrl: String) {
-    Picasso.get()
-        .load(imageUrl)
-        .error(R.drawable.telstra_logo)
-        .into(view)
+fun loadImage(view: ImageView, imageUrl: String?) {
+    val parentActivity:AppCompatActivity? = view.getParentActivity()
+    if(parentActivity != null) {
+        Picasso.with(view.context)
+            .load(imageUrl)
+            .error(R.drawable.telstra_logo)
+            .placeholder(R.drawable.telstra_logo)
+            .into(view)
+    }
 }
-
