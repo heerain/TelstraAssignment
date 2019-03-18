@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">TelstraAssignment</string>
     <string name="retry">Retry</string>
-    <string name="post_error">An error occurred while loading the facts</string>
+    <string name="post_error">No Internet Access,Please Connect and tap Retry!</string>
 </resources>

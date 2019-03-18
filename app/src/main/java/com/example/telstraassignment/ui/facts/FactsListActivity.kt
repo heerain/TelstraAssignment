@@ -2,7 +2,10 @@ package com.example.telstraassignment.ui.facts
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.databinding.DataBindingUtil
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.StringRes
@@ -40,10 +43,16 @@ class FactsListActivity : AppCompatActivity() {
     }
 
     private fun configViews() {
+
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh)
         mSwipeRefreshLayout.setOnRefreshListener {
-            viewModel.loadPosts()
+            if(checkInternetConnectivity()) {
+                viewModel.loadPosts()
+            }else{
+                showError(R.string.post_error)
+            }
         }
+
     }
 
     private fun setToolbarTitle(title : String) {
@@ -63,5 +72,11 @@ class FactsListActivity : AppCompatActivity() {
         errorSnackbar?.dismiss()
     }
 
+    private fun checkInternetConnectivity() : Boolean{
+        val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+        return isConnected
+    }
 
 }
